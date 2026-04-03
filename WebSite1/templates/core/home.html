@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Aloron | Home{% endblock %}
+
+{% block content %}
+<section class="hero-section py-5">
+    <div class="container py-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <span class="badge rounded-pill hero-badge mb-3">Society, Service, Progress</span>
+                <h1 class="display-5 fw-bold mb-3">Welcome to the digital platform of Aloron</h1>
+                <p class="lead text-secondary mb-4">
+                    President, Member, Project and Donation information can now be managed easily from the admin panel.
+                </p>
+                <a href="#projects" class="btn btn-brand btn-lg">See Projects</a>
+            </div>
+            <div class="col-lg-5">
+                <div class="hero-card p-4">
+                    <h5 class="fw-bold mb-3">Main Sections</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">President photo and message</li>
+                        <li class="mb-2">Member gallery</li>
+                        <li class="mb-2">Project portfolio</li>
+                        <li class="mb-2">Al</li>
+                        <li>Donation history</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="president" class="py-5 section-soft">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">President Message</h2>
+            <p class="text-secondary mb-0">Leadership guidance and inspiration</p>
+        </div>
+        {% if president %}
+        <div class="row align-items-center g-4">
+            <div class="col-lg-4 text-center">
+                <img src="{{ president.photo.url }}" alt="{{ president.name }}" class="img-fluid rounded-4 shadow-sm president-photo">
+            </div>
+            <div class="col-lg-8">
+                <div class="content-card h-100">
+                    <h3 class="fw-bold mb-1">{{ president.name }}</h3>
+                    <p class="text-brand fw-semibold">{{ president.designation }}</p>
+                    <p class="mb-0">{{ president.message|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-box text-center">
+            <p class="mb-0">No president information has been added yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="vice-president" class="py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">Vice President Message</h2>
+            <p class="text-secondary mb-0">Supportive leadership and shared direction</p>
+        </div>
+        {% if vice_president %}
+        <div class="row align-items-center g-4">
+            <div class="col-lg-4 text-center">
+                <img src="{{ vice_president.photo.url }}" alt="{{ vice_president.name }}" class="img-fluid rounded-4 shadow-sm president-photo">
+            </div>
+            <div class="col-lg-8">
+                <div class="content-card h-100">
+                    <h3 class="fw-bold mb-1">{{ vice_president.name }}</h3>
+                    <p class="text-brand fw-semibold">{{ vice_president.designation }}</p>
+                    <p class="mb-0">{{ vice_president.message|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-box text-center">
+            <p class="mb-0">No vice president information has been added yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="advisors" class="py-5 section-soft">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">Advisors</h2>
+            <p class="text-secondary mb-0">Guidance and support from our respected advisors</p>
+        </div>
+        {% if advisors %}
+        <div class="content-slider advisor-slider" data-slider>
+            <div class="content-track advisor-track">
+            {% for advisor in advisors %}
+                <article class="content-card text-center advisor-card">
+                    <img src="{{ advisor.photo.url }}" alt="{{ advisor.name }}" class="member-photo mb-3">
+                    <h5 class="fw-bold mb-1">{{ advisor.name }}</h5>
+                    <p class="text-brand fw-semibold">{{ advisor.designation }}</p>
+                    {% if advisor.message %}
+                    <p class="text-secondary mb-0">{{ advisor.message }}</p>
+                    {% endif %}
+                </article>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="slider-dots" data-slider-dots></div>
+        {% else %}
+        <div class="empty-box text-center">
+            <p class="mb-0">No advisor information has been added yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="members" class="py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">Member Gallery</h2>
+            <p class="text-secondary mb-0">A smooth slider for all members</p>
+        </div>
+        {% if members %}
+        <div class="content-slider member-slider" data-slider data-autoplay="true">
+            <div class="content-track member-track">
+                {% for member in members %}
+                <article class="content-card member-card text-center">
+                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-photo mb-3">
+                    <h5 class="fw-bold mb-1">{{ member.name }}</h5>
+                    <p class="text-brand fw-semibold">{{ member.designation }}</p>
+                    <p class="text-secondary mb-0">{{ member.bio }}</p>
+                    {% if member.facebook_url or member.whatsapp_number or member.linkedin_url %}
+                    <div class="member-socials">
+                        {% if member.facebook_url %}
+                        <a href="{{ member.facebook_url }}" class="member-social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.whatsapp_number %}
+                        <a href="https://wa.me/{{ member.whatsapp_number|cut:'+'|cut:' ' }}" class="member-social-link" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.linkedin_url %}
+                        <a href="{{ member.linkedin_url }}" class="member-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="slider-dots" data-slider-dots></div>
+        {% else %}
+        <div class="empty-box text-center">
+            <p class="mb-0">No member has been added yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="projects" class="py-5 section-soft">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">Project Portfolio</h2>
+            <p class="text-secondary mb-0">Highlights of ongoing work and outcomes</p>
+        </div>
+        <div class="row g-4">
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="content-card h-100 overflow-hidden">
+                    <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="project-photo mb-3">
+                    <h5 class="fw-bold">{{ project.title }}</h5>
+                    {% if project.project_date %}<p class="small text-secondary">{{ project.project_date }}</p>{% endif %}
+                    <p class="text-secondary mb-0">{{ project.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-box text-center">
+                    <p class="mb-0">No project has been added yet.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="donations" class="py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">Donation History</h2>
+            <p class="text-secondary mb-0">Support and impact shared with the community</p>
+        </div>
+        <div class="row g-4">
+            {% for donation in donations %}
+            <div class="col-md-6 col-lg-4">
+                <div class="content-card h-100 overflow-hidden">
+                    <img src="{{ donation.photo.url }}" alt="{{ donation.title }}" class="project-photo mb-3">
+                    <div class="d-flex justify-content-between align-items-start gap-2">
+                        <h5 class="fw-bold mb-0">{{ donation.title }}</h5>
+                        {% if donation.amount %}<span class="badge text-bg-light">{{ donation.amount }}</span>{% endif %}
+                    </div>
+                    {% if donation.donation_date %}<p class="small text-secondary mt-2">{{ donation.donation_date }}</p>{% endif %}
+                    <p class="text-secondary mb-0">{{ donation.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-box text-center">
+                    <p class="mb-0">No donation information has been added yet.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="py-5 section-soft">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2 class="fw-bold">Contact Us</h2>
+            <p class="text-secondary mb-0">Reach out to Aloron for any information or support</p>
+        </div>
+        <div class="content-card text-center contact-card">
+            <p class="contact-line mb-2"><strong>Phone:</strong> +880 1530101280</p>
+            <p class="contact-line mb-2"><strong>Email:</strong> info@aloron.com</p>
+            <p class="contact-line mb-0"><strong>Address:</strong> Gobingoganj, Gaibandha </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

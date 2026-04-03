@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Aloron{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark site-nav sticky-top">
+        <div class="container">
+            <a class="navbar-brand site-brand fw-bold" href="{% url 'home' %}">
+                <img src="{% static 'images/alodon_2025.png' %}" alt="Aloron logo" class="site-logo">
+                <span>Aloron</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#president">President</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#vice-president">Vice President</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#advisors">Advisors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#members">Member</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Project</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#donations">Donation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="site-footer py-4">
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold">Aloron</p>
+            <p class="mb-0 small text-secondary bn-text" lang="bn">মানুষের পাশে, উন্নয়নের পথে।</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sliders = document.querySelectorAll("[data-slider]");
+
+            sliders.forEach(function (slider) {
+                const track = slider.querySelector(".content-track");
+                const dotsWrap = slider.nextElementSibling;
+                const items = track ? Array.from(track.children) : [];
+
+                if (!track || !dotsWrap || !items.length) {
+                    return;
+                }
+
+                let dots = [];
+                let paused = false;
+                let frameId = null;
+
+                const getPageCount = () => {
+                    const item = items[0];
+                    const gap = parseFloat(window.getComputedStyle(track).gap || "0");
+                    const itemWidth = item.getBoundingClientRect().width + gap;
+                    const visibleCount = Math.max(1, Math.floor((slider.clientWidth + gap) / itemWidth));
+                    return Math.max(1, Math.ceil(items.length / visibleCount));
+                };
+
+                const updateDots = () => {
+                    if (!dots.length) return;
+                    const maxScroll = slider.scrollWidth - slider.clientWidth;
+                    const progress = maxScroll > 0 ? slider.scrollLeft / maxScroll : 0;
+                    const activeIndex = Math.min(dots.length - 1, Math.round(progress * (dots.length - 1)));
+                    dots.forEach(function (dot, index) {
+                        dot.classList.toggle("active", index === activeIndex);
+                    });
+                };
+
+                const renderDots = () => {
+                    const pageCount = getPageCount();
+                    dotsWrap.innerHTML = "";
+                    dotsWrap.style.display = pageCount > 1 ? "flex" : "none";
+                    dots = [];
+
+                    for (let i = 0; i < pageCount; i += 1) {
+                        const dot = document.createElement("button");
+                        dot.type = "button";
+                        dot.className = "slider-dot";
+                        dot.setAttribute("aria-label", "Go to slide " + (i + 1));
+                        dot.addEventListener("click", function () {
+                            const maxScroll = slider.scrollWidth - slider.clientWidth;
+                            const target = pageCount > 1 ? (maxScroll / (pageCount - 1)) * i : 0;
+                            slider.scrollTo({ left: target, behavior: "smooth" });
+                        });
+                        dotsWrap.appendChild(dot);
+                        dots.push(dot);
+                    }
+
+                    updateDots();
+                };
+
+                slider.addEventListener("scroll", updateDots, { passive: true });
+                window.addEventListener("resize", renderDots);
+
+                if (slider.dataset.autoplay === "true") {
+                    const tick = () => {
+                        if (!paused) {
+                            const maxScroll = slider.scrollWidth - slider.clientWidth;
+                            if (maxScroll > 0) {
+                                const step = window.innerWidth < 768 ? 0.35 : 0.5;
+                                slider.scrollLeft += step;
+                                if (slider.scrollLeft >= maxScroll) {
+                                    slider.scrollLeft = 0;
+                                }
+                            }
+                        }
+                        frameId = window.requestAnimationFrame(tick);
+                    };
+
+                    slider.addEventListener("mouseenter", function () {
+                        paused = true;
+                    });
+
+                    slider.addEventListener("mouseleave", function () {
+                        paused = false;
+                    });
+
+                    frameId = window.requestAnimationFrame(tick);
+                }
+
+                renderDots();
+
+                window.addEventListener("beforeunload", function () {
+                    if (frameId) {
+                        window.cancelAnimationFrame(frameId);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
