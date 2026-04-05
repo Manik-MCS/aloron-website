@@ -38,7 +38,11 @@
         {% if president %}
         <div class="row align-items-center g-4">
             <div class="col-lg-4 text-center">
+                {% if president.photo %}
                 <img src="{{ president.photo.url }}" alt="{{ president.name }}" class="img-fluid rounded-4 shadow-sm president-photo">
+                {% else %}
+                <img src="{% static 'images/no-image.svg' %}" alt="No president image" class="img-fluid rounded-4 shadow-sm president-photo">
+                {% endif %}
             </div>
             <div class="col-lg-8">
                 <div class="content-card h-100">
@@ -65,7 +69,11 @@
         {% if vice_president %}
         <div class="row align-items-center g-4">
             <div class="col-lg-4 text-center">
+                {% if vice_president.photo %}
                 <img src="{{ vice_president.photo.url }}" alt="{{ vice_president.name }}" class="img-fluid rounded-4 shadow-sm president-photo">
+                {% else %}
+                <img src="{% static 'images/no-image.svg' %}" alt="No vice president image" class="img-fluid rounded-4 shadow-sm president-photo">
+                {% endif %}
             </div>
             <div class="col-lg-8">
                 <div class="content-card h-100">
@@ -94,7 +102,11 @@
             <div class="content-track advisor-track">
             {% for advisor in advisors %}
                 <article class="content-card text-center advisor-card">
+                    {% if advisor.photo %}
                     <img src="{{ advisor.photo.url }}" alt="{{ advisor.name }}" class="member-photo mb-3">
+                    {% else %}
+                    <img src="{% static 'images/no-image.svg' %}" alt="No advisor image" class="member-photo mb-3">
+                    {% endif %}
                     <h5 class="fw-bold mb-1">{{ advisor.name }}</h5>
                     <p class="text-brand fw-semibold">{{ advisor.designation }}</p>
                     {% if advisor.message %}
@@ -124,7 +136,11 @@
             <div class="content-track member-track">
                 {% for member in members %}
                 <article class="content-card member-card text-center">
+                    {% if member.photo %}
                     <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-photo mb-3">
+                    {% else %}
+                    <img src="{% static 'images/no-image.svg' %}" alt="No member image" class="member-photo mb-3">
+                    {% endif %}
                     <h5 class="fw-bold mb-1">{{ member.name }}</h5>
                     <p class="text-brand fw-semibold">{{ member.designation }}</p>
                     <p class="text-secondary mb-0">{{ member.bio }}</p>
@@ -170,7 +186,11 @@
             {% for project in projects %}
             <div class="col-md-6 col-lg-4">
                 <div class="content-card h-100 overflow-hidden">
+                    {% if project.screenshot %}
                     <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="project-photo mb-3">
+                    {% else %}
+                    <img src="{% static 'images/no-image.svg' %}" alt="No project image" class="project-photo mb-3">
+                    {% endif %}
                     <h5 class="fw-bold">{{ project.title }}</h5>
                     {% if project.project_date %}<p class="small text-secondary">{{ project.project_date }}</p>{% endif %}
                     <p class="text-secondary mb-0">{{ project.description }}</p>
@@ -197,7 +217,11 @@
             {% for donation in donations %}
             <div class="col-md-6 col-lg-4">
                 <div class="content-card h-100 overflow-hidden">
+                    {% if donation.photo %}
                     <img src="{{ donation.photo.url }}" alt="{{ donation.title }}" class="project-photo mb-3">
+                    {% else %}
+                    <img src="{% static 'images/no-image.svg' %}" alt="No donation image" class="project-photo mb-3">
+                    {% endif %}
                     <div class="d-flex justify-content-between align-items-start gap-2">
                         <h5 class="fw-bold mb-0">{{ donation.title }}</h5>
                         {% if donation.amount %}<span class="badge text-bg-light">{{ donation.amount }}</span>{% endif %}
