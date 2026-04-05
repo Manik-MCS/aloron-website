@@ -39,7 +39,7 @@
         <div class="row align-items-center g-4">
             <div class="col-lg-4 text-center">
                 {% if president.photo %}
-                <img src="{{ president.photo.url }}" alt="{{ president.name }}" class="img-fluid rounded-4 shadow-sm president-photo">
+                <img src="{{ president.photo.url }}" alt="{{ president.name }}" class="img-fluid rounded-4 shadow-sm president-photo" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
                 {% else %}
                 <img src="{% static 'images/no-image.svg' %}" alt="No president image" class="img-fluid rounded-4 shadow-sm president-photo">
                 {% endif %}
@@ -70,7 +70,7 @@
         <div class="row align-items-center g-4">
             <div class="col-lg-4 text-center">
                 {% if vice_president.photo %}
-                <img src="{{ vice_president.photo.url }}" alt="{{ vice_president.name }}" class="img-fluid rounded-4 shadow-sm president-photo">
+                <img src="{{ vice_president.photo.url }}" alt="{{ vice_president.name }}" class="img-fluid rounded-4 shadow-sm president-photo" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
                 {% else %}
                 <img src="{% static 'images/no-image.svg' %}" alt="No vice president image" class="img-fluid rounded-4 shadow-sm president-photo">
                 {% endif %}
@@ -103,7 +103,7 @@
             {% for advisor in advisors %}
                 <article class="content-card text-center advisor-card">
                     {% if advisor.photo %}
-                    <img src="{{ advisor.photo.url }}" alt="{{ advisor.name }}" class="member-photo mb-3">
+                    <img src="{{ advisor.photo.url }}" alt="{{ advisor.name }}" class="member-photo mb-3" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
                     {% else %}
                     <img src="{% static 'images/no-image.svg' %}" alt="No advisor image" class="member-photo mb-3">
                     {% endif %}
@@ -137,7 +137,7 @@
                 {% for member in members %}
                 <article class="content-card member-card text-center">
                     {% if member.photo %}
-                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-photo mb-3">
+                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-photo mb-3" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
                     {% else %}
                     <img src="{% static 'images/no-image.svg' %}" alt="No member image" class="member-photo mb-3">
                     {% endif %}
@@ -187,7 +187,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="content-card h-100 overflow-hidden">
                     {% if project.screenshot %}
-                    <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="project-photo mb-3">
+                    <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="project-photo mb-3" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
                     {% else %}
                     <img src="{% static 'images/no-image.svg' %}" alt="No project image" class="project-photo mb-3">
                     {% endif %}
@@ -218,7 +218,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="content-card h-100 overflow-hidden">
                     {% if donation.photo %}
-                    <img src="{{ donation.photo.url }}" alt="{{ donation.title }}" class="project-photo mb-3">
+                    <img src="{{ donation.photo.url }}" alt="{{ donation.title }}" class="project-photo mb-3" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
                     {% else %}
                     <img src="{% static 'images/no-image.svg' %}" alt="No donation image" class="project-photo mb-3">
                     {% endif %}
