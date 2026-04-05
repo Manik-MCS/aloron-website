@@ -107,30 +107,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Cloudinary Configuration for Media Files in Production
-CLOUDINARY_CONFIGURED = all(
-    os.getenv(key)
-    for key in (
-        'CLOUDINARY_CLOUD_NAME',
-        'CLOUDINARY_API_KEY',
-        'CLOUDINARY_API_SECRET',
-    )
-)
-
-if CLOUDINARY_CONFIGURED:
-    try:
-        import cloudinary_storage
-        CLOUDINARY_STORAGE = {
-            'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-            'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-            'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-        }
-        DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-        CLOUDINARY_URL = os.getenv('CLOUDINARY_URL') or (
-            f"cloudinary://{os.getenv('CLOUDINARY_API_KEY')}:{os.getenv('CLOUDINARY_API_SECRET')}@{os.getenv('CLOUDINARY_CLOUD_NAME')}"
-        )
-    except ImportError:
-        # Cloudinary not installed, fall back to local storage
-        pass
+if os.getenv('CLOUDINARY_URL'):
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
