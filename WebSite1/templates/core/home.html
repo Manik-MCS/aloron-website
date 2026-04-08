@@ -148,17 +148,17 @@
                     {% if member.facebook_url or member.whatsapp_number or member.linkedin_url %}
                     <div class="member-socials">
                         {% if member.facebook_url %}
-                        <a href="{{ member.facebook_url }}" class="member-social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <a href="{{ member.facebook_url }}" class="member-social-link member-social-facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                             <i class="bi bi-facebook"></i>
                         </a>
                         {% endif %}
                         {% if member.whatsapp_number %}
-                        <a href="https://wa.me/{{ member.whatsapp_number|cut:'+'|cut:' ' }}" class="member-social-link" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                        <a href="https://wa.me/{{ member.whatsapp_number|cut:'+'|cut:' ' }}" class="member-social-link member-social-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                             <i class="bi bi-whatsapp"></i>
                         </a>
                         {% endif %}
                         {% if member.linkedin_url %}
-                        <a href="{{ member.linkedin_url }}" class="member-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <a href="{{ member.linkedin_url }}" class="member-social-link member-social-linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                             <i class="bi bi-linkedin"></i>
                         </a>
                         {% endif %}

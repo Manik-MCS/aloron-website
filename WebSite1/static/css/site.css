@@ -188,24 +188,40 @@ li {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.85rem;
+    height: 2.85rem;
     border-radius: 50%;
-    background: #14243a;
+    background: #233250;
     color: #fff;
     text-decoration: none;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 10px 18px rgba(20, 36, 58, 0.16);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .member-social-link:hover {
-    background: #b58a36;
     color: #fff;
     transform: translateY(-2px);
+    box-shadow: 0 14px 24px rgba(20, 36, 58, 0.2);
 }
 
 .member-social-link i {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     line-height: 1;
+}
+
+.member-social-facebook,
+.footer-social-facebook {
+    background: linear-gradient(135deg, #5f6d82, #3b5998);
+}
+
+.member-social-whatsapp,
+.footer-social-whatsapp {
+    background: linear-gradient(135deg, #2ed573, #128c7e);
+}
+
+.member-social-linkedin,
+.footer-social-linkedin {
+    background: linear-gradient(135deg, #355c8b, #0a66c2);
 }
 
 .slider-dots {
@@ -355,20 +371,23 @@ li {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 3.35rem;
+    height: 3.35rem;
     border-radius: 50%;
-    background: #fff;
-    color: #17336f;
+    color: #fff;
     text-decoration: none;
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.18);
     transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .footer-social-link:hover {
     transform: translateY(-2px);
-    background: #df6a4a;
     color: #fff;
+}
+
+.footer-social-link i {
+    font-size: 1.3rem;
+    line-height: 1;
 }
 
 .footer-title {
