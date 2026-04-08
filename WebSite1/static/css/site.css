@@ -367,6 +367,11 @@ li {
     gap: 0.95rem;
 }
 
+.advisor-socials {
+    justify-content: center;
+    margin-top: 2rem;
+}
+
 .footer-social-link {
     display: inline-flex;
     align-items: center;
