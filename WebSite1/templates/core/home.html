@@ -40,9 +40,9 @@
         <div class="row align-items-center g-4">
             <div class="col-lg-4 text-center">
                 {% if president.photo %}
-                <img src="{{ president.display_image_url }}" alt="{{ president.name }}" class="img-fluid rounded-4 shadow-sm president-photo" onerror="this.onerror=null;this.src='{% static 'images/no-image.svg' %}';">
+                <img src="{{ president.display_image_url }}" alt="{{ president.name }}" class="img-fluid rounded-4 shadow-sm president-photo" onerror="this.onerror=null;this.src='{% static 'images/president-default.png' %}';">
                 {% else %}
-                <img src="{% static 'images/no-image.svg' %}" alt="No president image" class="img-fluid rounded-4 shadow-sm president-photo">
+                <img src="{% static 'images/president-default.png' %}" alt="President default image" class="img-fluid rounded-4 shadow-sm president-photo">
                 {% endif %}
             </div>
             <div class="col-lg-8">

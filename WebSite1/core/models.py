@@ -20,6 +20,7 @@ class SafeImageURLMixin:
 
 
 class PresidentMessage(SafeImageURLMixin, models.Model):
+    fallback_image = "images/president-default.png"
     name = models.CharField("নাম", max_length=150)
     designation = models.CharField("পদবি", max_length=150, default="সভাপতি")
     photo = models.ImageField("ছবি", upload_to="president/")
