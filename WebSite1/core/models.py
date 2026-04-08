@@ -1,7 +1,25 @@
 from django.db import models
+from django.templatetags.static import static
 
 
-class PresidentMessage(models.Model):
+class SafeImageURLMixin:
+    fallback_image = "images/no-image.svg"
+
+    def _safe_file_url(self, field_name):
+        file_field = getattr(self, field_name, None)
+        if not file_field or not getattr(file_field, "name", ""):
+            return static(self.fallback_image)
+
+        try:
+            if file_field.storage.exists(file_field.name):
+                return file_field.url
+        except Exception:
+            pass
+
+        return static(self.fallback_image)
+
+
+class PresidentMessage(SafeImageURLMixin, models.Model):
     name = models.CharField("নাম", max_length=150)
     designation = models.CharField("পদবি", max_length=150, default="সভাপতি")
     photo = models.ImageField("ছবি", upload_to="president/")
@@ -17,8 +35,12 @@ class PresidentMessage(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def display_image_url(self):
+        return self._safe_file_url("photo")
 
-class VicePresidentMessage(models.Model):
+
+class VicePresidentMessage(SafeImageURLMixin, models.Model):
     name = models.CharField("নাম", max_length=150)
     designation = models.CharField("পদবি", max_length=150, default="সহ-সভাপতি")
     photo = models.ImageField("ছবি", upload_to="vice-president/")
@@ -34,8 +56,12 @@ class VicePresidentMessage(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def display_image_url(self):
+        return self._safe_file_url("photo")
 
-class Advisor(models.Model):
+
+class Advisor(SafeImageURLMixin, models.Model):
     name = models.CharField("নাম", max_length=150)
     designation = models.CharField("পদবি", max_length=150, default="উপদেষ্টা")
     photo = models.ImageField("ছবি", upload_to="advisors/")
@@ -52,8 +78,12 @@ class Advisor(models.Model):
     def __str__(self):
         return f"{self.name} - {self.designation}"
 
+    @property
+    def display_image_url(self):
+        return self._safe_file_url("photo")
 
-class Member(models.Model):
+
+class Member(SafeImageURLMixin, models.Model):
     name = models.CharField("নাম", max_length=150)
     designation = models.CharField("পদবি", max_length=150)
     photo = models.ImageField("ছবি", upload_to="members/")
@@ -69,8 +99,12 @@ class Member(models.Model):
     def __str__(self):
         return f"{self.name} - {self.designation}"
 
+    @property
+    def display_image_url(self):
+        return self._safe_file_url("photo")
 
-class Project(models.Model):
+
+class Project(SafeImageURLMixin, models.Model):
     title = models.CharField("প্রজেক্টের নাম", max_length=200)
     description = models.TextField("বর্ণনা")
     screenshot = models.ImageField("স্ক্রিনশট", upload_to="projects/")
@@ -83,8 +117,12 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def display_image_url(self):
+        return self._safe_file_url("screenshot")
 
-class Donation(models.Model):
+
+class Donation(SafeImageURLMixin, models.Model):
     title = models.CharField("দানের শিরোনাম", max_length=200)
     description = models.TextField("বর্ণনা")
     photo = models.ImageField("ছবি", upload_to="donations/")
@@ -97,3 +135,7 @@ class Donation(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def display_image_url(self):
+        return self._safe_file_url("photo")
