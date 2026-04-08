@@ -4,10 +4,12 @@ URL configuration for aloron_site project.
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.views.generic.base import RedirectView
 from django.views.static import serve
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("favicon.ico", RedirectView.as_view(url=settings.STATIC_URL + "images/alodon_2025.png", permanent=True)),
     path("", include("core.urls")),
 ]
 
