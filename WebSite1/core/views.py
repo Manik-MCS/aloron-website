@@ -1,7 +1,12 @@
+import logging
+
 from django.db.utils import OperationalError, ProgrammingError
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from .models import Advisor, Donation, Member, PresidentMessage, Project, VicePresidentMessage
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
@@ -24,4 +29,19 @@ def home(request):
             "projects": [],
             "donations": [],
         }
-    return render(request, "core/home.html", context)
+    try:
+        return render(request, "core/home.html", context)
+    except Exception:
+        logger.exception("Homepage rendering failed")
+        return HttpResponse(
+            """
+            <html>
+                <head><title>Aloron</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 32px;">
+                    <h1>Aloron</h1>
+                    <p>Website is updating now. Please refresh again in a moment.</p>
+                </body>
+            </html>
+            """,
+            status=200,
+        )
