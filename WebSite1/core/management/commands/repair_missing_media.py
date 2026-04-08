@@ -4,7 +4,7 @@ from core.models import Advisor, Donation, Member, PresidentMessage, Project, Vi
 
 
 class Command(BaseCommand):
-    help = "Clear broken media file references that no longer exist in storage."
+    help = "Clear all uploaded media references so the site falls back to the default image."
 
     model_configs = (
         (PresidentMessage, "photo"),
@@ -24,19 +24,11 @@ class Command(BaseCommand):
                 if not file_field or not getattr(file_field, "name", ""):
                     continue
 
-                try:
-                    exists = file_field.storage.exists(file_field.name)
-                except Exception:
-                    exists = False
-
-                if exists:
-                    continue
-
                 setattr(obj, field_name, "")
                 obj.save(update_fields=[field_name])
                 repaired += 1
                 self.stdout.write(
-                    f"Cleared missing file for {model.__name__}#{obj.pk}: {field_name}"
+                    f"Cleared uploaded file for {model.__name__}#{obj.pk}: {field_name}"
                 )
 
-        self.stdout.write(self.style.SUCCESS(f"Repaired {repaired} missing media reference(s)."))
+        self.stdout.write(self.style.SUCCESS(f"Cleared {repaired} media reference(s)."))
