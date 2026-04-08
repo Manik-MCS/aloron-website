@@ -39,10 +39,65 @@
 
     {% block content %}{% endblock %}
 
-    <footer class="site-footer py-4">
-        <div class="container text-center">
-            <p class="mb-1 fw-semibold">Aloron</p>
-            <p class="mb-0 small text-secondary bn-text" lang="bn">মানুষের পাশে, উন্নয়নের পথে।</p>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand-block">
+                    <a class="footer-brand" href="{% url 'home' %}">
+                        <img src="{% static 'images/alodon_2025.png' %}" alt="Aloron logo" class="footer-logo">
+                        <div>
+                            <span class="footer-brand-name">Aloron</span>
+                            <p class="footer-brand-subtitle mb-0">Society, Service, Progress</p>
+                        </div>
+                    </a>
+                    <p class="footer-copy">
+                        Aloron brings together leadership messages, member activities, community projects and donation history on one platform for people-focused progress.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#contact" class="footer-social-link" aria-label="Contact Aloron"><i class="bi bi-envelope-fill"></i></a>
+                        <a href="#members" class="footer-social-link" aria-label="Members"><i class="bi bi-people-fill"></i></a>
+                        <a href="#projects" class="footer-social-link" aria-label="Projects"><i class="bi bi-kanban-fill"></i></a>
+                        <a href="#donations" class="footer-social-link" aria-label="Donations"><i class="bi bi-heart-fill"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-title">Menu</h3>
+                    <ul class="footer-links">
+                        <li><a href="#president">President</a></li>
+                        <li><a href="#vice-president">Vice President</a></li>
+                        <li><a href="#advisors">Advisors</a></li>
+                        <li><a href="#members">Members</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 class="footer-title">Our Activities</h3>
+                    <ul class="footer-links">
+                        <li><a href="#projects">Project Portfolio</a></li>
+                        <li><a href="#donations">Donation History</a></li>
+                        <li><a href="#members">Member Gallery</a></li>
+                        <li><a href="#advisors">Advisor Team</a></li>
+                        <li><a href="#president">Leadership Message</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column footer-contact">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-contact-list">
+                        <li><i class="bi bi-geo-alt-fill"></i><span><strong>Address:</strong> Gobindaganj, Gaibandha, Bangladesh</span></li>
+                        <li><i class="bi bi-telephone-fill"></i><span><strong>Phone:</strong> +880 1530101280</span></li>
+                        <li><i class="bi bi-envelope-fill"></i><span><strong>Email:</strong> info@aloron.com</span></li>
+                        <li><i class="bi bi-globe-central-south-asia"></i><span><strong>Website:</strong> aloron-website.onrender.com</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="mb-1 fw-semibold">Aloron</p>
+                <p class="mb-0 bn-text" lang="bn">মানুষের পাশে, উন্নয়নের পথে।</p>
+            </div>
         </div>
     </footer>
 
