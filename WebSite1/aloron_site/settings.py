@@ -99,7 +99,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# Keep uploads on a persistent disk when the host provides one.
+MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT", BASE_DIR / "media"))
 
 STORAGES = {
     "default": {

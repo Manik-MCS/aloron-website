@@ -4,7 +4,6 @@ set -o errexit
 pip install -r requirements.txt
 python manage.py collectstatic --noinput
 python manage.py migrate
-python manage.py repair_missing_media
 
 # সরাসরি পাইথন কোড দিয়ে ইউজার তৈরি
 python manage.py shell <<EOF
