@@ -158,6 +158,14 @@ li {
     scroll-snap-type: x mandatory;
 }
 
+.member-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    gap: 0;
+    width: 100%;
+}
+
 .content-slider::-webkit-scrollbar {
     display: none;
 }
@@ -176,6 +184,8 @@ li {
 }
 
 .member-card {
+    width: min(420px, calc(100% - 2rem));
+    justify-self: center;
     scroll-snap-align: center;
 }
 
@@ -493,6 +503,10 @@ li {
     .advisor-card,
     .member-card {
         width: min(240px, 78vw);
+    }
+
+    .member-card {
+        width: min(320px, calc(100% - 1.25rem));
     }
 
     .slider-dots {
