@@ -109,6 +109,7 @@
                 const track = slider.querySelector(".content-track");
                 const dotsWrap = slider.nextElementSibling;
                 const items = track ? Array.from(track.children) : [];
+                const sliderMode = slider.dataset.sliderMode || "pages";
 
                 if (!track || !dotsWrap || !items.length) {
                     return;
@@ -126,18 +127,40 @@
                     return Math.max(1, Math.ceil(items.length / visibleCount));
                 };
 
+                const getItemTargets = () => {
+                    const maxScroll = slider.scrollWidth - slider.clientWidth;
+                    return items.map(function (item) {
+                        const centeredLeft = item.offsetLeft - Math.max(0, (slider.clientWidth - item.offsetWidth) / 2);
+                        return Math.max(0, Math.min(centeredLeft, maxScroll));
+                    });
+                };
+
                 const updateDots = () => {
                     if (!dots.length) return;
-                    const maxScroll = slider.scrollWidth - slider.clientWidth;
-                    const progress = maxScroll > 0 ? slider.scrollLeft / maxScroll : 0;
-                    const activeIndex = Math.min(dots.length - 1, Math.round(progress * (dots.length - 1)));
+                    let activeIndex = 0;
+
+                    if (sliderMode === "items") {
+                        const itemTargets = getItemTargets();
+                        const nearest = itemTargets.reduce(function (bestIndex, target, index) {
+                            const bestDistance = Math.abs(itemTargets[bestIndex] - slider.scrollLeft);
+                            const currentDistance = Math.abs(target - slider.scrollLeft);
+                            return currentDistance < bestDistance ? index : bestIndex;
+                        }, 0);
+
+                        activeIndex = nearest;
+                    } else {
+                        const maxScroll = slider.scrollWidth - slider.clientWidth;
+                        const progress = maxScroll > 0 ? slider.scrollLeft / maxScroll : 0;
+                        activeIndex = Math.min(dots.length - 1, Math.round(progress * (dots.length - 1)));
+                    }
+
                     dots.forEach(function (dot, index) {
                         dot.classList.toggle("active", index === activeIndex);
                     });
                 };
 
                 const renderDots = () => {
-                    const pageCount = getPageCount();
+                    const pageCount = sliderMode === "items" ? items.length : getPageCount();
                     dotsWrap.innerHTML = "";
                     dotsWrap.style.display = pageCount > 1 ? "flex" : "none";
                     dots = [];
@@ -148,8 +171,13 @@
                         dot.className = "slider-dot";
                         dot.setAttribute("aria-label", "Go to slide " + (i + 1));
                         dot.addEventListener("click", function () {
-                            const maxScroll = slider.scrollWidth - slider.clientWidth;
-                            const target = pageCount > 1 ? (maxScroll / (pageCount - 1)) * i : 0;
+                            let target = 0;
+                            if (sliderMode === "items") {
+                                target = getItemTargets()[i] || 0;
+                            } else {
+                                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                                target = pageCount > 1 ? (maxScroll / (pageCount - 1)) * i : 0;
+                            }
                             slider.scrollTo({ left: target, behavior: "smooth" });
                         });
                         dotsWrap.appendChild(dot);
