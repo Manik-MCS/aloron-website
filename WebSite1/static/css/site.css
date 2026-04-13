@@ -154,10 +154,6 @@ li {
     scroll-behavior: smooth;
 }
 
-.member-slider {
-    scroll-snap-type: x mandatory;
-}
-
 .content-slider::-webkit-scrollbar {
     display: none;
 }
@@ -173,10 +169,6 @@ li {
     width: min(280px, 80vw);
     flex: 0 0 auto;
     padding: 1.75rem 1.25rem;
-}
-
-.member-card {
-    scroll-snap-align: center;
 }
 
 .member-photo {
@@ -236,31 +228,28 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     gap: 0.7rem;
     margin-top: 1.5rem;
 }
 
 .slider-dot {
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 2.25rem;
+    height: 0.45rem;
     border: 0;
     border-radius: 999px;
-    background: rgba(181, 138, 54, 0.28);
+    background: rgba(223, 106, 74, 0.45);
     padding: 0;
-    box-shadow: inset 0 0 0 1px rgba(33, 48, 71, 0.08);
-    transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease;
 }
 
 .slider-dot.active {
-    width: 2.2rem;
-    background: #b58a36;
-    box-shadow: none;
+    width: 3rem;
+    background: #df6a4a;
 }
 
 .slider-dot:hover {
     transform: translateY(-1px);
-    background: #946f28;
+    background: #df6a4a;
 }
 
 .contact-card {
@@ -500,12 +489,11 @@ li {
     }
 
     .slider-dot {
-        width: 0.72rem;
-        height: 0.72rem;
+        width: 1.8rem;
     }
 
     .slider-dot.active {
-        width: 1.7rem;
+        width: 2.4rem;
     }
 
     .site-footer {
