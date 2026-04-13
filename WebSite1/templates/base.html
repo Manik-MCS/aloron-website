@@ -109,6 +109,7 @@
                 const track = slider.querySelector(".content-track");
                 const dotsWrap = slider.nextElementSibling;
                 const items = track ? Array.from(track.children) : [];
+                const sliderMode = slider.dataset.sliderMode || "pages";
 
                 if (!track || !dotsWrap || !items.length) {
                     return;
@@ -126,18 +127,38 @@
                     return Math.max(1, Math.ceil(items.length / visibleCount));
                 };
 
-                const updateDots = () => {
-                    if (!dots.length) return;
+                const getItemTargets = () => {
+                    const maxScroll = slider.scrollWidth - slider.clientWidth;
+                    return items.map(function (item) {
+                        return Math.max(0, Math.min(item.offsetLeft, maxScroll));
+                    });
+                };
+
+                const getActiveIndex = () => {
+                    if (sliderMode === "items") {
+                        const itemTargets = getItemTargets();
+                        return itemTargets.reduce(function (bestIndex, target, index) {
+                            const bestDistance = Math.abs(itemTargets[bestIndex] - slider.scrollLeft);
+                            const currentDistance = Math.abs(target - slider.scrollLeft);
+                            return currentDistance < bestDistance ? index : bestIndex;
+                        }, 0);
+                    }
+
                     const maxScroll = slider.scrollWidth - slider.clientWidth;
                     const progress = maxScroll > 0 ? slider.scrollLeft / maxScroll : 0;
-                    const activeIndex = Math.min(dots.length - 1, Math.round(progress * (dots.length - 1)));
+                    return Math.min(dots.length - 1, Math.round(progress * (dots.length - 1)));
+                };
+
+                const updateDots = () => {
+                    if (!dots.length) return;
+                    const activeIndex = getActiveIndex();
                     dots.forEach(function (dot, index) {
                         dot.classList.toggle("active", index === activeIndex);
                     });
                 };
 
                 const renderDots = () => {
-                    const pageCount = getPageCount();
+                    const pageCount = sliderMode === "items" ? items.length : getPageCount();
                     dotsWrap.innerHTML = "";
                     dotsWrap.style.display = pageCount > 1 ? "flex" : "none";
                     dots = [];
@@ -148,8 +169,13 @@
                         dot.className = "slider-dot";
                         dot.setAttribute("aria-label", "Go to slide " + (i + 1));
                         dot.addEventListener("click", function () {
-                            const maxScroll = slider.scrollWidth - slider.clientWidth;
-                            const target = pageCount > 1 ? (maxScroll / (pageCount - 1)) * i : 0;
+                            let target = 0;
+                            if (sliderMode === "items") {
+                                target = getItemTargets()[i] || 0;
+                            } else {
+                                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                                target = pageCount > 1 ? (maxScroll / (pageCount - 1)) * i : 0;
+                            }
                             slider.scrollTo({ left: target, behavior: "smooth" });
                         });
                         dotsWrap.appendChild(dot);
@@ -162,7 +188,36 @@
                 slider.addEventListener("scroll", updateDots, { passive: true });
                 window.addEventListener("resize", renderDots);
 
-                if (slider.dataset.autoplay === "true") {
+                if (sliderMode === "items") {
+                    let wheelLocked = false;
+
+                    slider.addEventListener("wheel", function (event) {
+                        if (Math.abs(event.deltaY) < Math.abs(event.deltaX)) {
+                            return;
+                        }
+
+                        event.preventDefault();
+
+                        if (wheelLocked) {
+                            return;
+                        }
+
+                        const itemTargets = getItemTargets();
+                        const activeIndex = getActiveIndex();
+                        const direction = event.deltaY > 0 ? 1 : -1;
+                        const nextIndex = Math.max(0, Math.min(itemTargets.length - 1, activeIndex + direction));
+
+                        if (nextIndex === activeIndex) {
+                            return;
+                        }
+
+                        wheelLocked = true;
+                        slider.scrollTo({ left: itemTargets[nextIndex], behavior: "smooth" });
+                        window.setTimeout(function () {
+                            wheelLocked = false;
+                        }, 350);
+                    }, { passive: false });
+                } else if (slider.dataset.autoplay === "true") {
                     const tick = () => {
                         if (!paused) {
                             const maxScroll = slider.scrollWidth - slider.clientWidth;

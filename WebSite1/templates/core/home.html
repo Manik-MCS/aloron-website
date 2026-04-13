@@ -99,7 +99,7 @@
             <p class="text-secondary mb-0">Guidance and support from our respected advisors</p>
         </div>
         {% if advisors %}
-        <div class="content-slider advisor-slider" data-slider>
+        <div class="content-slider advisor-slider" data-slider data-slider-mode="items">
             <div class="content-track advisor-track">
             {% for advisor in advisors %}
                 <article class="content-card text-center advisor-card">
@@ -133,7 +133,7 @@
             <p class="text-secondary mb-0">A smooth slider for all members</p>
         </div>
         {% if members %}
-        <div class="content-slider member-slider" data-slider data-autoplay="true">
+        <div class="content-slider member-slider" data-slider data-slider-mode="items">
             <div class="content-track member-track">
                 {% for member in members %}
                 <article class="content-card member-card text-center">
