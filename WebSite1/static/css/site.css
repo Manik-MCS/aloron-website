@@ -143,7 +143,10 @@ li {
 }
 
 .president-photo {
-    max-height: 420px;
+    width: min(100%, 320px);
+    max-height: 360px;
+    margin-inline: auto;
+    display: block;
 }
 
 .content-slider {
@@ -484,6 +487,11 @@ li {
     .advisor-card,
     .member-card {
         width: min(240px, 78vw);
+    }
+
+    .president-photo {
+        width: min(100%, 260px);
+        max-height: 300px;
     }
 
     .slider-dots {

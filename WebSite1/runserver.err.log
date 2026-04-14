@@ -1,0 +1,2 @@
+C:\Users\navigation\Documents\My Web Sites\WebSite1\venv\Lib\site-packages\django\core\handlers\base.py:61: UserWarning: No directory at: C:\Users\navigation\Documents\My Web Sites\WebSite1\staticfiles\
+  mw_instance = middleware(adapted_handler)
